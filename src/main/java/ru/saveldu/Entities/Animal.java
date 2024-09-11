@@ -1,6 +1,7 @@
 package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
+import ru.saveldu.Island;
 
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public abstract class Animal extends AbstractOrganism {
 
     }
 
-    public abstract void move(Cell cell);
+    public abstract void move(Island island);
     public abstract void eat();
     public void reproduce() {
 

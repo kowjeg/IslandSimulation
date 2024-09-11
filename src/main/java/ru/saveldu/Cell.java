@@ -12,10 +12,15 @@ public class Cell {
 
     private int x;
     private int y;
+
     public Cell(int x, int y) {
         this.x = x;
         this.y = y;
     }
+    public Cell getCellByCoords(Island island,int x, int y) {
+        return island.getCells()[x][y];
+    }
+
 
     public void addHerbivore(Herbivore herbivore) {
         herbivores.add(herbivore);

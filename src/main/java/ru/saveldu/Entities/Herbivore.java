@@ -1,6 +1,7 @@
 package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
+import ru.saveldu.Island;
 
 public abstract class Herbivore extends Animal {
 
@@ -10,7 +11,7 @@ public abstract class Herbivore extends Animal {
     }
 
     @Override
-    public void move(Cell cell) {
+    public void move(Island island) {
         cell.getHerbivores().add(this);
 
         this.getCell().getHerbivores().remove(this);

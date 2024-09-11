@@ -1,6 +1,7 @@
 package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
+import ru.saveldu.Island;
 
 public class Bear extends Predator{
     public Bear(Cell cell) {
@@ -8,7 +9,7 @@ public class Bear extends Predator{
     }
 
     @Override
-    public void move(Cell cell) {
+    public void move(Island island) {
 
     }
 }
