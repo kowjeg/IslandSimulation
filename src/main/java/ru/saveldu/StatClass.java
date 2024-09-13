@@ -1,20 +1,23 @@
 package ru.saveldu;
 
+import ru.saveldu.Entities.Animal;
 import ru.saveldu.Entities.Herbivore;
 import ru.saveldu.Entities.Predator;
+import ru.saveldu.Entities.Predators.Wolf;
 
 public class StatClass {
 
     private static int countEntity = 0;
 
     public static void printMap(Cell[][] cells) {
-
+        System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
         for (Cell[] row : cells) {
             for (Cell cell : row) {
-                System.out.print(cell + "|");
+                System.out.print("| " + cell.getHerbivoreCount() + "|" + cell.getPredatorCount() + " |");
             }
             System.out.println();
         }
+        System.out.println("Волков на карте " + Wolf.getCount() + " животных на карте: " + Animal.getCount());
 
 
     }

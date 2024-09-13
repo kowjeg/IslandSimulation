@@ -37,6 +37,16 @@ public class Cell {
         return herbivores;
     }
 
+    public int getPredatorCount() {
+
+        return predators.size();
+    }
+    public int getHerbivoreCount() {
+
+        return herbivores.size();
+    }
+
+
     public int getX() {
         return x;
     }

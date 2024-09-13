@@ -11,21 +11,8 @@ public abstract class Herbivore extends Animal {
     }
 
     @Override
-    public void move(Island island) {
-        cell.getHerbivores().add(this);
-
-        this.getCell().getHerbivores().remove(this);
-        this.cell = cell;
-    }
-
-    @Override
     public void eat() {
         // Deer eats plants
-    }
-
-    @Override
-    public void reproduce() {
-        // Deer reproduction logic
     }
 
     @Override

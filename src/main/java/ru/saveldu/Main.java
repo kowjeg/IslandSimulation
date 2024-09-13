@@ -1,33 +1,44 @@
 package ru.saveldu;
 
-import ru.saveldu.Entities.Rabbit;
-import ru.saveldu.Entities.Wolf;
-import ru.saveldu.Utils.AnimalFactory;
+import ru.saveldu.Entities.Herbivores.Rabbit;
+import ru.saveldu.Entities.Predators.Wolf;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello world!");
-        Island island = new Island(3,3);
+        Island island = Island.getInstance(6, 5);
 
         Cell[][] cells = island.getCells();
-        new Rabbit(cells[1][1]);
-        new Wolf(cells[1][0]);
 
-        new Wolf(cells[1][0]);
-        new Rabbit(cells[1][1]);
-        new Rabbit(cells[1][1]);
+        Rabbit rabbit = new Rabbit(cells[1][0]);
+
         Wolf wolf = new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+        new Wolf(cells[1][1]);
+
+
+        StatClass.printMap(cells);
         StatClass.getStat(island);
-//        wolf.eat();
-        wolf.move(island);
-        StatClass.getStat(island);
-//        wolf.eat();
-//        StatClass.getStat(island);
-//        StatClass.printMap(island.getCells());
+
+//        System.out.println(wolf.checkOutOfBounds(4,3));
+
+
         while (true) {
-            Thread.sleep(500);
-            wolf.move(island);
-            StatClass.getStat(island);
+
+            wolf.move();
+//            rabbit.move();
+//          T
+            Thread.sleep(1000);
+            StatClass.printMap(cells);
+
         }
+
+
     }
 }

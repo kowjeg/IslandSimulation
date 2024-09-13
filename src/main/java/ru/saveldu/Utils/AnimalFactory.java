@@ -2,8 +2,8 @@ package ru.saveldu.Utils;
 
 import ru.saveldu.Cell;
 import ru.saveldu.Entities.Animal;
-import ru.saveldu.Entities.Rabbit;
-import ru.saveldu.Entities.Wolf;
+import ru.saveldu.Entities.Herbivores.Rabbit;
+import ru.saveldu.Entities.Predators.Wolf;
 
 public class AnimalFactory {
     public Animal createAnimal(Cell cell, Class<? extends Animal> animalClass){
