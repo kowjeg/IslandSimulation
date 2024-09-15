@@ -1,4 +1,4 @@
-package ru.saveldu.Entities;
+package ru.saveldu.Utils;
 
 public enum Direction {
     UP,

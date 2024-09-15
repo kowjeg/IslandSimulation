@@ -11,7 +11,7 @@ public class AnimalFactory {
             return new Rabbit(cell);
         }
         if (animalClass == Wolf.class) {
-            return new Wolf(cell);
+            return new Wolf( cell);
         }
         else return null;
     }

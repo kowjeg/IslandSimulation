@@ -1,6 +1,7 @@
 package ru.saveldu;
 
 import ru.saveldu.Entities.Herbivore;
+import ru.saveldu.Entities.Plant;
 import ru.saveldu.Entities.Predator;
 
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ import java.util.List;
 public class Cell {
     private List<Predator> predators= new ArrayList<>();
     private List<Herbivore> herbivores =  new ArrayList<>();
+    private List<Plant> plants = new ArrayList<>();
+
+    Object lock = new Object();
 
     private int x;
     private int y;

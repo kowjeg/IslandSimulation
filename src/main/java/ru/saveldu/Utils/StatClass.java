@@ -1,9 +1,11 @@
-package ru.saveldu;
+package ru.saveldu.Utils;
 
+import ru.saveldu.Cell;
 import ru.saveldu.Entities.Animal;
 import ru.saveldu.Entities.Herbivore;
 import ru.saveldu.Entities.Predator;
 import ru.saveldu.Entities.Predators.Wolf;
+import ru.saveldu.Island;
 
 public class StatClass {
 

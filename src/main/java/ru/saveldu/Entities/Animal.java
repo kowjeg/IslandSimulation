@@ -2,6 +2,7 @@ package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
 import ru.saveldu.Island;
+import ru.saveldu.Utils.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,41 +10,29 @@ import java.util.Random;
 
 public abstract class Animal extends AbstractOrganism {
 
-    protected int stepSize;
-
     private static int count;
-
+    protected static int stepSize;
+    protected int health;
     public static int getCount() {
         return count;
     }
-
     public static void setCount(int count) {
         Animal.count = count;
     }
-
     public Animal(Cell cell) {
         super(cell);
         count++;
     }
-
     public void move() {
-        int currentX = cell.getX();
-        int currentY = cell.getY();
-
-        int newXCoord = currentX;
-        int newYCoord = currentY;
-        Cell temporaryCell = new Cell(newXCoord, newYCoord);
-
-        // делаем несколько шагов (stepSize) за один такт
+        int newXCoord = cell.getX();
+        int newYCoord = cell.getY();
+        // делаем несколько шагов за один такт
         for (int i = 0; i < this.stepSize; i++) {
             boolean isChosen = false;
-
-            // выбираем направление, пока не выдаст новую ячейку с координатами внутри острова
             while (!isChosen) {
                 Direction direction = chooseDirection();
                 int tempX = newXCoord;
                 int tempY = newYCoord;
-
                 // определяем изменение координат в зависимости от направления
                 switch (direction) {
                     case UP:
@@ -62,7 +51,6 @@ public abstract class Animal extends AbstractOrganism {
                         isChosen = true; // остаемся на месте
                         break;
                 }
-
                 // проверяем, что новые координаты находятся внутри границ
                 if (checkOutOfBounds(tempX, tempY)) {
                     newXCoord = tempX;
@@ -70,16 +58,12 @@ public abstract class Animal extends AbstractOrganism {
                     isChosen = true;
                 }
             }
-
-            // обновляем текущие координаты и ячейку
-
-            temporaryCell = new Cell(newXCoord, newYCoord);
         }
-
-
-        Cell newCell = Island.getInstance().getCellByCoordinates(temporaryCell.getX(), temporaryCell.getY());
-        // проверяем в какой список добавить и из какого убрать объект хищника или травоядного, тут мне кажется не оптимально, можно как-то выше абстракцию
-        //наверно добавить, но я не понял как в таком случае вести списки хищников и травоядных в разрезе ячейки
+        // получаем ссылку на ячейку с новыми проверенными координатами, куда переместим животное
+        Cell newCell = Island.getInstance().getCellByCoordinates(newXCoord, newYCoord);
+        // проверяем в какой список добавить и из какого убрать объект хищника или травоядного,
+        // тут мне кажется не оптимально, можно как-то выше абстракцию
+        // наверно добавить, но я не понял как в таком случае вести списки хищников и травоядных в разрезе ячейки
         if (this instanceof Predator) {
             newCell.getPredators().add((Predator) this);
             this.getCell().getPredators().remove(this);
@@ -88,8 +72,6 @@ public abstract class Animal extends AbstractOrganism {
             this.getCell().getHerbivores().remove(this);
         }
         this.cell = newCell;
-
-
     }
 
     public Direction chooseDirection() {
@@ -103,7 +85,7 @@ public abstract class Animal extends AbstractOrganism {
         Island island = Island.getInstance();
         int islandWidth = island.getWidth();
         int islandHeight = island.getHeight();
-
+        // true если вписались в сетку, false если вылетели за пределы острова
         return x >= 0 && x < islandWidth && y >= 0 && y < islandHeight;
     }
 
@@ -121,15 +103,18 @@ public abstract class Animal extends AbstractOrganism {
 
     public abstract void die();
 
-    public <T extends Animal> List<T> filterByType(List<Animal> animals) {
-        List<T> result = new ArrayList<>();
-        for (Animal animal : animals) {
-            if (this.getClass().isInstance(animal)) {
-                result.add((T) animal); // Приведение типа
-            }
-        }
-        return result;
-    }
+
+
+    //пока не используется
+//    public <T extends Animal> List<T> filterByType(List<Animal> animals) {
+//        List<T> result = new ArrayList<>();
+//        for (Animal animal : animals) {
+//            if (this.getClass().isInstance(animal)) {
+//                result.add((T) animal); // Приведение типа
+//            }
+//        }
+//        return result;
+//    }
 
 
 }
