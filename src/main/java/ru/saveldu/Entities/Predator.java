@@ -3,6 +3,7 @@ package ru.saveldu.Entities;
 import ru.saveldu.Cell;
 import ru.saveldu.Entities.Herbivores.Rabbit;
 import ru.saveldu.Utils.AnimalEatProbability;
+import ru.saveldu.Utils.ListUtils;
 import ru.saveldu.Utils.LoadClass;
 
 import java.util.ArrayList;
@@ -26,24 +27,33 @@ public abstract class Predator extends Animal {
 //        LoadClass loadClass = new LoadClass();
 //        var map = LoadClass.getMapPairs();
 //        System.out.println("test");
+        //получаем список возможных жертво
         victimList  = LoadClass.getMapPairs().get(className);
-        for (var victim : victimList) {
-
+        Animal victim = null;
+        //находим жертву в ячейке
+        List<Animal> animalsCell = ListUtils.getAnimalsInCell(cell);
+        for (Animal animal : animalsCell) {
+            if (victimList.contains(animal.getClass().getSimpleName())) victim = animal;
+            break;
         }
+        double chanceToEat= chanceToEatVictim(this, victim);
+
+
+
         System.out.println(victimList);
-        if (!cell.getHerbivores().isEmpty()) {
-            Animal victim = cell.getHerbivores().get(0);
-            double chanceToEat = chanceToEatVictim(this, victim);
-            boolean canEat = random.nextDouble(1.0) < chanceToEat;
-            if (canEat) {
-                cell.getHerbivores().remove(victim);
-
-                health++;
-            } else {
-                health--;
-            }
-
-        }
+//        if (!cell.getHerbivores().isEmpty()) {
+//            Animal victim = cell.getHerbivores().get(0);
+//            double chanceToEat = chanceToEatVictim(this, victim);
+//            boolean canEat = random.nextDouble(1.0) < chanceToEat;
+//            if (canEat) {
+//                cell.getHerbivores().remove(victim);
+//
+//                health++;
+//            } else {
+//                health--;
+//            }
+//
+//        }
         //если здоровья стало 0 - умираем
             if (health <= 0) {
                 this.die();

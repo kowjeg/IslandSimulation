@@ -19,6 +19,8 @@ public class AnimalEatProbability {
         return probabilityMap.getOrDefault(pair, 0.0); // Если нет значения, возвращается 0.0
     }
 
+
+    // из мапы достается пара классов для проверки списка животных в момент выбора жертвы (предполагаю, что это очень неоптимально)
     public static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> getPair (Class<? extends Animal> clazzEater, Class<? extends Animal> clazzVictim)  {
         return probabilityMap.keySet();
     }
@@ -32,7 +34,7 @@ public class AnimalEatProbability {
             String predatorName = key.getFirst().getSimpleName();
             String herbivoreName = key.getSecond().getSimpleName();
 
-            // Добавляем хищника и список к нему, если такого хищника еще не было. Далее заполняем список.. Если хищник есть - дополняем список.
+            // Добавляем травоядное к хищнику, если он уже есть в карте
             classPairs.putIfAbsent(predatorName, new ArrayList<>());
             classPairs.get(predatorName).add(herbivoreName);
         }

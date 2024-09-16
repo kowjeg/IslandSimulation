@@ -1,6 +1,7 @@
 package ru.saveldu;
 
 import ru.saveldu.Entities.Animal;
+import ru.saveldu.Entities.Herbivores.GuineaPig;
 import ru.saveldu.Entities.Herbivores.Rabbit;
 import ru.saveldu.Entities.Predators.Wolf;
 import ru.saveldu.Utils.AnimalEatProbability;
@@ -25,6 +26,7 @@ public class Main {
         Cell[][] cells = island.getCells();
         Rabbit rabbit = new Rabbit(cells[1][1]);
         Wolf wolf = new Wolf(cells[1][1]);
+        wolf.eat();
         System.out.println("-------------");
         new Wolf(cells[1][1]);
         new Wolf(cells[1][1]);
@@ -34,12 +36,12 @@ public class Main {
         new Wolf(cells[1][1]);
         new Wolf(cells[1][1]);
         new Wolf(cells[1][1]);
+        new GuineaPig(cells[1][2]);
 //        Map<String,String> pair = LoadClass.getStringPair();
 //        System.out.println(pair);
 
 
         System.out.println("-------");
-        wolf.eat();
 
 //        StatClass.printMap(cells);
 //        StatClass.getStat(island);

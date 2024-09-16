@@ -1,8 +1,6 @@
 package ru.saveldu.Utils;
-
 import java.util.Objects;
 
-//честно взято у ChatGPT
 public class EatPair<A, B> {
     private A first;
     private B second;
