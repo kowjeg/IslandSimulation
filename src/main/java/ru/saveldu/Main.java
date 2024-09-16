@@ -19,6 +19,7 @@ import static ru.saveldu.Utils.AnimalEatProbability.getPair;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello world!");
+
         Island island = Island.getInstance(6, 5);
 
         Cell[][] cells = island.getCells();
@@ -45,15 +46,15 @@ public class Main {
 //        StatClass.getStat(island);
 
 
-//        while (true) {
-//
-//            wolf.move();
-////            rabbit.move();
-////          T
-//            Thread.sleep(1000);
-//            StatClass.printMap(cells);
-//
-//        }
+        while (true) {
+
+            wolf.move();
+//            rabbit.move();
+//          T
+            Thread.sleep(1000);
+            StatClass.printMap(cells);
+
+        }
 
 
     }
