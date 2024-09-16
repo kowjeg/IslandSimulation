@@ -48,6 +48,8 @@ public class Main {
 
         while (true) {
 
+            //commit test
+
             wolf.move();
 //            rabbit.move();
 //          T
