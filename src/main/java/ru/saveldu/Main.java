@@ -19,13 +19,13 @@ import static ru.saveldu.Utils.AnimalEatProbability.getPair;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello world!");
-
+        LoadClass loadClass = new LoadClass();
         Island island = Island.getInstance(6, 5);
 
         Cell[][] cells = island.getCells();
         Rabbit rabbit = new Rabbit(cells[1][1]);
         Wolf wolf = new Wolf(cells[1][1]);
-        wolf.eat();
+        System.out.println("-------------");
         new Wolf(cells[1][1]);
         new Wolf(cells[1][1]);
         new Wolf(cells[1][1]);
@@ -36,27 +36,26 @@ public class Main {
         new Wolf(cells[1][1]);
 //        Map<String,String> pair = LoadClass.getStringPair();
 //        System.out.println(pair);
-        List<String> list  = LoadClass.getMapPairs().get("Bear");
-        System.out.println(list);
 
 
         System.out.println("-------");
+        wolf.eat();
 
 //        StatClass.printMap(cells);
 //        StatClass.getStat(island);
 
 
-        while (true) {
-
-            //commit test
-
-            wolf.move();
-//            rabbit.move();
-//          T
-            Thread.sleep(1000);
-            StatClass.printMap(cells);
-
-        }
+//        while (true) {
+//
+//            //commit test
+//
+//            wolf.move();
+////            rabbit.move();
+////          T
+//            Thread.sleep(1000);
+//            StatClass.printMap(cells);
+//
+//        }
 
 
     }

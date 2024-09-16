@@ -14,8 +14,8 @@ public class LoadClass {
     private static AnimalEatProbability probabilityTable = new AnimalEatProbability();
     private static Map<Class<? extends Animal>,Integer> healthMap = new HashMap<>();
     private static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> pairs = getPair(Wolf.class, Rabbit.class);
-    private static Map<String,String> stringPair = new HashMap<>();
     //Набор возможных путей поедания, строящийся на основе заполненной таблицы вероятности поедания. При поедании сначала будет поиск в ячейке такой комбинации
+    private static Map<String,String> stringPair = new HashMap<>();
     //по голодному животному, если находит - то идем во вторую таблицу вероятности, и пытаемся покушать
     private static Map<String, List<String>> mapPairs;
 
@@ -79,13 +79,7 @@ public class LoadClass {
 //            System.out.println(pair.getFirst().getSimpleName() + " " + pair.getSecond().getSimpleName());
 //            stringPair.put(pair.getFirst().getSimpleName(),pair.getSecond().getSimpleName());
 //        }
-        AnimalEatProbability aep = new AnimalEatProbability();
-
-        mapPairs  = AnimalEatProbability.getPairs();
-
-
-
-
+        mapPairs  = probabilityTable.getPairs();
 
     }
 }

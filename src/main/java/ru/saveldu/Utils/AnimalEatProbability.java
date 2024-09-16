@@ -32,7 +32,7 @@ public class AnimalEatProbability {
             String predatorName = key.getFirst().getSimpleName();
             String herbivoreName = key.getSecond().getSimpleName();
 
-            // Добавляем хищника и список к нему, если такого хищника еще не было. Далее заполняем список.
+            // Добавляем хищника и список к нему, если такого хищника еще не было. Далее заполняем список.. Если хищник есть - дополняем список.
             classPairs.putIfAbsent(predatorName, new ArrayList<>());
             classPairs.get(predatorName).add(herbivoreName);
         }

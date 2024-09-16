@@ -2,8 +2,11 @@ package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
 import ru.saveldu.Entities.Herbivores.Rabbit;
+import ru.saveldu.Utils.AnimalEatProbability;
 import ru.saveldu.Utils.LoadClass;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class Predator extends Animal {
@@ -17,7 +20,17 @@ public abstract class Predator extends Animal {
     @Override
     public void eat() {
         Random random = new Random();
+        Class clazz = this.getClass();
+        String className = clazz.getSimpleName();
+        List<String> victimList = new ArrayList<>();
+//        LoadClass loadClass = new LoadClass();
+//        var map = LoadClass.getMapPairs();
+//        System.out.println("test");
+        victimList  = LoadClass.getMapPairs().get(className);
+        for (var victim : victimList) {
 
+        }
+        System.out.println(victimList);
         if (!cell.getHerbivores().isEmpty()) {
             Animal victim = cell.getHerbivores().get(0);
             double chanceToEat = chanceToEatVictim(this, victim);
