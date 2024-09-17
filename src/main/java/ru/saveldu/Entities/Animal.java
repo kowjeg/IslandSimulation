@@ -23,7 +23,7 @@ public abstract class Animal extends AbstractOrganism {
         super(cell);
         count++;
     }
-    public void move() {
+    public void  move() {
         int newXCoord = cell.getX();
         int newYCoord = cell.getY();
         // делаем несколько шагов за один такт

@@ -12,7 +12,7 @@ public class Cell {
     private List<Herbivore> herbivores =  new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
 
-    Object lock = new Object();
+    public final Object lock = new Object();
 
     private int x;
     private int y;

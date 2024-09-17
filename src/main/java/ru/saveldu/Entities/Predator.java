@@ -48,7 +48,9 @@ public abstract class Predator extends Animal {
             canEat = random.nextDouble(1.0) < chanceToEat;
             if (canEat) {
                 //едим жертву
-                cell.getHerbivores().remove(victim);
+                synchronized (cell.lock) {
+                    cell.getHerbivores().remove(victim);
+                }
                 health++;
             }
         }
@@ -60,10 +62,10 @@ public abstract class Predator extends Animal {
     }
 
     private double chanceToEatVictim(Animal predator, Animal herbivore) {
-        Class clazz1 = predator.getClass();
-        Class clazz2 = herbivore.getClass();
+        Class eater = predator.getClass();
+        Class victim = herbivore.getClass();
         LoadClass loadClass = new LoadClass();
-        return loadClass.getProbabilityTable().getProbability(clazz1, clazz2);
+        return loadClass.getProbabilityTable().getProbability(eater, victim);
     }
 
     @Override
