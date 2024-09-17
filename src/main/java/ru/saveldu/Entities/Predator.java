@@ -9,9 +9,9 @@ import ru.saveldu.Utils.LoadClass;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Predator extends Animal {
-
 
     public Predator(Cell cell) {
         super(cell);
@@ -20,51 +20,50 @@ public abstract class Predator extends Animal {
 
     @Override
     public void eat() {
-        Random random = new Random();
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         Class clazz = this.getClass();
         String className = clazz.getSimpleName();
-        List<String> victimList = new ArrayList<>();
-//        LoadClass loadClass = new LoadClass();
-//        var map = LoadClass.getMapPairs();
-//        System.out.println("test");
-        //получаем список возможных жертво
-        victimList  = LoadClass.getMapPairs().get(className);
+        //список возможных жертв
+        List<String> victimProbList = new ArrayList<>();
+        //список жертв(объектов) в ячейке
+        List<Animal> victimList = new ArrayList<>();
+        //получаем список возможных жертв
+        victimProbList = LoadClass.getMapPairs().get(className);
         Animal victim = null;
         //находим жертву в ячейке
         List<Animal> animalsCell = ListUtils.getAnimalsInCell(cell);
+        //получаем список жертв, находящихся с хищником в одной ячейке
         for (Animal animal : animalsCell) {
-            if (victimList.contains(animal.getClass().getSimpleName())) victim = animal;
-            break;
+            if (victimProbList.contains(animal.getClass().getSimpleName())) victimList.add(animal);
+
         }
-        double chanceToEat= chanceToEatVictim(this, victim);
-
-
-
-        System.out.println(victimList);
-//        if (!cell.getHerbivores().isEmpty()) {
-//            Animal victim = cell.getHerbivores().get(0);
-//            double chanceToEat = chanceToEatVictim(this, victim);
-//            boolean canEat = random.nextDouble(1.0) < chanceToEat;
-//            if (canEat) {
-//                cell.getHerbivores().remove(victim);
-//
-//                health++;
-//            } else {
-//                health--;
-//            }
-//
-//        }
-        //если здоровья стало 0 - умираем
-            if (health <= 0) {
-                this.die();
+        //может ли скушать? изменится если повезет поймать выбранную жертву.
+        boolean canEat = false;
+        if (!victimList.isEmpty()) {
+            int max = victimList.size();
+            int victimIndex = random.nextInt(max);
+            victim = victimList.get(victimIndex);
+            double chanceToEat = chanceToEatVictim(this, victim);
+            canEat = random.nextDouble(1.0) < chanceToEat;
+            if (canEat) {
+                //едим жертву
+                cell.getHerbivores().remove(victim);
+                health++;
             }
         }
+        if (!canEat) health--;
+        if (health <= 0) {
+            System.out.println("умер");
+            this.die();
+        }
+    }
 
     private double chanceToEatVictim(Animal predator, Animal herbivore) {
         Class clazz1 = predator.getClass();
         Class clazz2 = herbivore.getClass();
         LoadClass loadClass = new LoadClass();
-        return loadClass.getProbabilityTable().getProbability(clazz1,clazz2);
+        return loadClass.getProbabilityTable().getProbability(clazz1, clazz2);
     }
 
     @Override

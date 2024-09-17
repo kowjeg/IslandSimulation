@@ -26,17 +26,10 @@ public class Main {
         Cell[][] cells = island.getCells();
         Rabbit rabbit = new Rabbit(cells[1][1]);
         Wolf wolf = new Wolf(cells[1][1]);
-        wolf.eat();
         System.out.println("-------------");
-        new Wolf(cells[1][1]);
-        new Wolf(cells[1][1]);
-        new Wolf(cells[1][1]);
-        new Wolf(cells[1][1]);
-        new Wolf(cells[1][1]);
-        new Wolf(cells[1][1]);
-        new Wolf(cells[1][1]);
-        new Wolf(cells[1][1]);
-        new GuineaPig(cells[1][2]);
+
+
+        wolf.eat();
 //        Map<String,String> pair = LoadClass.getStringPair();
 //        System.out.println(pair);
 
