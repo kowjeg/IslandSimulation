@@ -3,13 +3,14 @@ package ru.saveldu.Entities;
 import ru.saveldu.Cell;
 import ru.saveldu.Island;
 import ru.saveldu.Utils.Direction;
+import ru.saveldu.Utils.LoadClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public abstract class Animal extends AbstractOrganism {
-
+    protected static int maxHealth;
     private static int count;
     protected static int stepSize;
     protected int health;
@@ -22,6 +23,9 @@ public abstract class Animal extends AbstractOrganism {
     public Animal(Cell cell) {
         super(cell);
         count++;
+        maxHealth = LoadClass.getHealthMaxMap().get(this.getClass());
+        stepSize = LoadClass.getStepsMap().get(this.getClass());
+        health = maxHealth;
     }
     public void  move() {
         int newXCoord = cell.getX();

@@ -1,16 +1,35 @@
 package ru.saveldu;
 
+import ru.saveldu.Entities.Animal;
 import ru.saveldu.Entities.Herbivore;
 import ru.saveldu.Entities.Plant;
 import ru.saveldu.Entities.Predator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Cell {
     private List<Predator> predators= new ArrayList<>();
     private List<Herbivore> herbivores =  new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
+
+    public List<Plant> getPlants() {
+        return plants;
+    }
+
+    private static Map<Animal,Integer> animalMaxInCell= new HashMap<>();
+    // max population animals in cell
+    public static void setAnimalMaxInCell(Map<Animal, Integer> animalMaxInCell) {
+        Cell.animalMaxInCell = animalMaxInCell;
+    }
+    //map with current population animals in cell
+    private Map<Class<? extends Animal>, Integer> currAnimalInCell = new HashMap<>();
+
+    public static Map<Animal, Integer> getAnimalMaxInCell() {
+        return animalMaxInCell;
+    }
 
     public final Object lock = new Object();
 

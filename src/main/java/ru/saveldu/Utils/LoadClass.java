@@ -1,5 +1,6 @@
 package ru.saveldu.Utils;
 
+import ru.saveldu.Cell;
 import ru.saveldu.Entities.Animal;
 import ru.saveldu.Entities.Herbivores.*;
 import ru.saveldu.Entities.Predators.*;
@@ -11,10 +12,13 @@ import static ru.saveldu.Utils.AnimalEatProbability.getPair;
 
 public class LoadClass {
     //Мэппинг вероятности поедания
-    private static AnimalEatProbability probabilityTable = new AnimalEatProbability();
-    private static Map<Class<? extends Animal>,Integer> healthMap = new HashMap<>();
-    private static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> pairs = getPair(Wolf.class, Rabbit.class);
+    private static final AnimalEatProbability probabilityTable = new AnimalEatProbability();
+
+    private static final Map<Class<? extends Animal>,Integer> healthMaxMap = new HashMap<>();
+//    private static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> pairs = getPair(Wolf.class, Rabbit.class);
     private static Map<String,String> stringPair = new HashMap<>();
+    private Map<Class<? extends Animal>, Integer> animalPopMap = new HashMap<>();
+    private static final Map<Class<? extends Animal>,Integer> stepsMap = new HashMap<>();
     //Набор возможных путей поедания, строящийся на основе заполненной таблицы вероятности поедания. При поедании сначала будет поиск в ячейке такой комбинации
     //по голодному животному, если находит - то идем во вторую таблицу вероятности, и пытаемся покушать
     private static Map<String, List<String>> mapPairs;
@@ -23,9 +27,12 @@ public class LoadClass {
         return mapPairs;
     }
 
-    public static Map<String, String> getStringPair() {
-        return stringPair;
+    public static Map<Class<? extends Animal>, Integer> getStepsMap() {
+        return stepsMap;
     }
+    //    public static Map<String, String> getStringPair() {
+//        return stringPair;
+//    }
 
     public AnimalEatProbability getProbabilityTable() {
         return probabilityTable;
@@ -33,12 +40,34 @@ public class LoadClass {
 
 
     //мапа с изначальным здоровьем каждого объекта класса
-    public static Map<Class<? extends Animal>, Integer> getHealthMap() {
-        return healthMap;
+
+
+    public static Map<Class<? extends Animal>, Integer> getHealthMaxMap() {
+        return healthMaxMap;
     }
 
-    //загрузка таблицы вероятности поедания
+    //загрузка параметров
     {
+        //максимальное количество животных в клетке
+        animalPopMap.put(Wolf.class,15);
+        animalPopMap.put(Rabbit.class,15);
+        animalPopMap.put(Fox.class,10);
+        animalPopMap.put(Bear.class,2);
+        animalPopMap.put(Eagle.class,10);
+        animalPopMap.put(GuineaPig.class,30);
+        animalPopMap.put(Horse.class,10);
+        animalPopMap.put(Deer.class,10);
+        animalPopMap.put(Hamster.class,40);
+        animalPopMap.put(Goat.class,30);
+        animalPopMap.put(Sheep.class,30);
+        animalPopMap.put(Boar.class,8);
+        animalPopMap.put(Buffalo.class,5);
+        animalPopMap.put(Duck.class,50);
+        animalPopMap.put(Caterpillar.class,200);
+        animalPopMap.put(Kangaroo.class,7);
+
+
+        //вероятности поедания
         //wolf
         probabilityTable.addProbability(Wolf.class, Rabbit.class, 0.60);
         probabilityTable.addProbability(Wolf.class, Horse.class, 0.1);
@@ -73,12 +102,43 @@ public class LoadClass {
         probabilityTable.addProbability(Bear.class, Buffalo.class, 0.2);
         probabilityTable.addProbability(Bear.class, Duck.class, 0.1);
 
-        healthMap.put(Wolf.class,5);
-        healthMap.put(Rabbit.class,3);
-//        for (EatPair<Class<? extends Animal>, Class<? extends Animal>> pair : pairs) {
-//            System.out.println(pair.getFirst().getSimpleName() + " " + pair.getSecond().getSimpleName());
-//            stringPair.put(pair.getFirst().getSimpleName(),pair.getSecond().getSimpleName());
-//        }
+
+        //здоровье по умолчанию/максимальное у животных
+        healthMaxMap.put(Wolf.class,5);
+        healthMaxMap.put(Rabbit.class,3);
+        healthMaxMap.put(Fox.class,4);
+        healthMaxMap.put(Bear.class,10);
+        healthMaxMap.put(Eagle.class,6);
+        healthMaxMap.put(GuineaPig.class,10);
+        healthMaxMap.put(Horse.class,5);
+        healthMaxMap.put(Deer.class,5);
+        healthMaxMap.put(Hamster.class,2);
+        healthMaxMap.put(Goat.class,5);
+        healthMaxMap.put(Sheep.class,4);
+        healthMaxMap.put(Boar.class,6);
+        healthMaxMap.put(Buffalo.class,9);
+        healthMaxMap.put(Duck.class,3);
+        healthMaxMap.put(Caterpillar.class,1);
+        healthMaxMap.put(Kangaroo.class,4);
+
+        //максимальное количество шагов за такт для животных
+        stepsMap.put(Wolf.class,3);
+        stepsMap.put(Rabbit.class,2);
+        stepsMap.put(Fox.class,2);
+        stepsMap.put(Bear.class,2);
+        stepsMap.put(Eagle.class,3);
+        stepsMap.put(GuineaPig.class,1);
+        stepsMap.put(Horse.class,4);
+        stepsMap.put(Deer.class,4);
+        stepsMap.put(Hamster.class,1);
+        stepsMap.put(Goat.class,3);
+        stepsMap.put(Sheep.class,3);
+        stepsMap.put(Boar.class,2);
+        stepsMap.put(Buffalo.class,3);
+        stepsMap.put(Duck.class,4);
+        stepsMap.put(Caterpillar.class,0);
+        stepsMap.put(Kangaroo.class,3);
+
         AnimalEatProbability aep = new AnimalEatProbability();
 
         mapPairs  = AnimalEatProbability.getPairs();

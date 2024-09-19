@@ -5,6 +5,11 @@ import ru.saveldu.Entities.Predator;
 
 public class Fox extends Predator {
 
+    //инициализирую статик стату для всего класса
+    {
+        stepSize =2;  // шаги за такт
+    }
+
     public Fox(Cell cell) {
         super(cell);
     }

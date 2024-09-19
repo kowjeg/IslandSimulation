@@ -36,7 +36,6 @@ public abstract class Predator extends Animal {
         //получаем список жертв, находящихся с хищником в одной ячейке
         for (Animal animal : animalsCell) {
             if (victimProbList.contains(animal.getClass().getSimpleName())) victimList.add(animal);
-
         }
         //может ли скушать? изменится если повезет поймать выбранную жертву.
         boolean canEat = false;
@@ -51,7 +50,7 @@ public abstract class Predator extends Animal {
                 synchronized (cell.lock) {
                     cell.getHerbivores().remove(victim);
                 }
-                health++;
+                if (health < maxHealth) health++;
             }
         }
         if (!canEat) health--;

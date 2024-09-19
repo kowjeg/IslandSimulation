@@ -7,7 +7,7 @@ public class Wolf extends Predator {
 
     //инициализирую статик стату для всего класса
     {
-        stepSize =3;
+        stepSize =3;  // шаги за такт
     }
     private static int count = 0;
 
