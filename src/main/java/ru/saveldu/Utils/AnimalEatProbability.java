@@ -7,7 +7,13 @@ import java.util.*;
 
 //отдельный класс для логики поедания, загрузка в LoadClass
 public class AnimalEatProbability {
-    private static final Map<EatPair<Class<? extends Animal>, Class<? extends Animal>>, Double> probabilityMap = new HashMap<>();
+    private static Map<EatPair<Class<? extends Animal>, Class<? extends Animal>>, Double> probabilityMap = new HashMap<>();
+
+    public static void setProbabilityMap(Map<EatPair<Class<? extends Animal>, Class<? extends Animal>>, Double> probabilityMap) {
+        AnimalEatProbability.probabilityMap = probabilityMap;
+
+        System.out.println("test2");
+    }
 
     public void addProbability(Class<? extends Animal> clazzEater, Class<? extends Animal> clazzVictim, double probability) {
         EatPair<Class<? extends Animal>, Class<? extends Animal>> pair = new EatPair<>(clazzEater, clazzVictim);
@@ -19,8 +25,6 @@ public class AnimalEatProbability {
         return probabilityMap.getOrDefault(pair, 0.0); // Если нет значения, возвращается 0.0
     }
 
-
-    // из мапы достается пара классов для проверки списка животных в момент выбора жертвы (предполагаю, что это очень неоптимально)
     public static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> getPair (Class<? extends Animal> clazzEater, Class<? extends Animal> clazzVictim)  {
         return probabilityMap.keySet();
     }
