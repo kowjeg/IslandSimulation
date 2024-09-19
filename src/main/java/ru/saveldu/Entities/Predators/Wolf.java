@@ -5,10 +5,7 @@ import ru.saveldu.Entities.Predator;
 
 public class Wolf extends Predator {
 
-    //инициализирую статик стату для всего класса
-    {
-        stepSize =3;  // шаги за такт
-    }
+
     private static int count = 0;
 
     public Wolf(Cell cell) {
