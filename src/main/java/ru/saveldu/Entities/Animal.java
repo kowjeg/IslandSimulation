@@ -2,6 +2,7 @@ package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
 import ru.saveldu.Island;
+import ru.saveldu.Utils.AnimalFactory;
 import ru.saveldu.Utils.Direction;
 import ru.saveldu.Utils.LoadClass;
 
@@ -95,12 +96,14 @@ public abstract class Animal extends AbstractOrganism {
 
     public abstract void eat();
 
-    public void reproduce(Cell cell, Class<Animal> animalClass) {
+    public void reproduce() {
 
         Island island = Island.getInstance();
         Cell cellByCoordinates = island.getCellByCoordinates(cell.getX(), cell.getY());
         List<Animal> animalList = new ArrayList<>(cell.getHerbivores());
         animalList.addAll(cell.getPredators());
+
+        AnimalFactory.createAnimal(cell, this.getClass());
 
 
     }

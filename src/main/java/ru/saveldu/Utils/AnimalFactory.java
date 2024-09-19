@@ -6,7 +6,7 @@ import ru.saveldu.Entities.Herbivores.Rabbit;
 import ru.saveldu.Entities.Predators.Wolf;
 
 public class AnimalFactory {
-    public Animal createAnimal(Cell cell, Class<? extends Animal> animalClass){
+    public static Animal createAnimal(Cell cell, Class<? extends Animal> animalClass){
         if (animalClass == Rabbit.class) {
             return new Rabbit(cell);
         }

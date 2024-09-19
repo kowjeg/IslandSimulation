@@ -27,8 +27,11 @@ public class Main {
         Cell[][] cells = island.getCells();
         Rabbit rabbit = new Rabbit(cells[1][1]);
 
-        Grass grass = new Grass(cells[1][1]);
-        rabbit.eat();
+//        Grass grass = new Grass(cells[1][1]);
+//        rabbit.eat();
+        rabbit.reproduce();
+        rabbit.reproduce();
+        rabbit.reproduce();
 
         System.out.println("test");
     }
