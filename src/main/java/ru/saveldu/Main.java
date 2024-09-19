@@ -30,28 +30,6 @@ public class Main {
 
 
         wolf.eat();
-//        Map<String,String> pair = LoadClass.getStringPair();
-//        System.out.println(pair);
-
-
         System.out.println("-------");
-
-//        StatClass.printMap(cells);
-//        StatClass.getStat(island);
-
-
-//        while (true) {
-//
-//            //commit test
-//
-//            wolf.move();
-////            rabbit.move();
-////          T
-//            Thread.sleep(1000);
-//            StatClass.printMap(cells);
-//
-//        }
-
-
     }
 }
