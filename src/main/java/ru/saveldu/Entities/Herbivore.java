@@ -2,21 +2,22 @@ package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
 import ru.saveldu.Island;
+import ru.saveldu.Utils.LoadClass;
 
 public abstract class Herbivore extends Animal {
 
     public Herbivore(Cell cell) {
         super(cell);
-        cell.addHerbivore(this);
+        cell.addAnimal(this);
+
     }
 
     @Override
     public void eat() {
-        // Deer eats plants
-    }
+        cell.getPlants().remove(0);
+        if (health < maxHealth) health++;
+        System.out.println("покушал");
 
-    @Override
-    public void die() {
-        this.getCell().getHerbivores().remove(this);
+        // Deer eats plants
     }
 }

@@ -6,6 +6,7 @@ public class Plant extends AbstractOrganism{
 
     public Plant(Cell cell) {
         super(cell);
+        cell.getPlants().add(this);
     }
 
 }

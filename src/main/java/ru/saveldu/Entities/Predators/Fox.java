@@ -5,6 +5,7 @@ import ru.saveldu.Entities.Predator;
 
 public class Fox extends Predator {
 
+
     public Fox(Cell cell) {
         super(cell);
     }
