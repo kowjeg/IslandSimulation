@@ -64,18 +64,10 @@ public abstract class Animal extends AbstractOrganism {
                 }
             }
         }
-        // получаем ссылку на ячейку с новыми проверенными координатами, куда переместим животное
+        // получаем ссылку на ячейку с новыми проверенными координатами, куда переместим животное и перемещаем его, затем меняем у животного ссылку на ячейку
         Cell newCell = Island.getInstance().getCellByCoordinates(newXCoord, newYCoord);
-        // проверяем в какой список добавить и из какого убрать объект хищника или травоядного,
-        // тут мне кажется не оптимально, можно как-то выше абстракцию
-        // наверно добавить, но я не понял как в таком случае вести списки хищников и травоядных в разрезе ячейки
-        if (this instanceof Predator) {
-            newCell.getPredators().add((Predator) this);
-            this.getCell().getPredators().remove(this);
-        } else {
-            newCell.getHerbivores().add((Herbivore) this);
-            this.getCell().getHerbivores().remove(this);
-        }
+        newCell.addAnimal(this);
+        cell.removeAnimal(this);
         this.cell = newCell;
     }
 
@@ -97,31 +89,11 @@ public abstract class Animal extends AbstractOrganism {
     public abstract void eat();
 
     public void reproduce() {
-
-        Island island = Island.getInstance();
-        Cell cellByCoordinates = island.getCellByCoordinates(cell.getX(), cell.getY());
-        List<Animal> animalList = new ArrayList<>(cell.getHerbivores());
-        animalList.addAll(cell.getPredators());
-
         AnimalFactory.createAnimal(cell, this.getClass());
-
-
     }
 
-    public abstract void die();
-
-
-
-    //пока не используется
-//    public <T extends Animal> List<T> filterByType(List<Animal> animals) {
-//        List<T> result = new ArrayList<>();
-//        for (Animal animal : animals) {
-//            if (this.getClass().isInstance(animal)) {
-//                result.add((T) animal); // Приведение типа
-//            }
-//        }
-//        return result;
-//    }
-
-
+    public void die() {
+        cell.removeAnimal(this);
+        Animal.setCount(Animal.getCount() - 1);
+    }
 }

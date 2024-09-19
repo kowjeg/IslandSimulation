@@ -6,7 +6,7 @@ import ru.saveldu.Cell;
 public abstract class AbstractOrganism {
 
 
-    Cell cell;
+    protected Cell cell;
     protected boolean isAlive;
     public AbstractOrganism(Cell cell) {
         this.cell = cell;
@@ -14,7 +14,6 @@ public abstract class AbstractOrganism {
 
     }
     public Cell getCell() {
-
         return cell;
     }
 }

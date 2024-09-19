@@ -1,36 +1,34 @@
 package ru.saveldu.Entities;
 
 import ru.saveldu.Cell;
-import ru.saveldu.Entities.Herbivores.Rabbit;
 import ru.saveldu.Utils.AnimalEatProbability;
 import ru.saveldu.Utils.ListUtils;
 import ru.saveldu.Utils.LoadClass;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Predator extends Animal {
 
     public Predator(Cell cell) {
         super(cell);
-        cell.addPredator(this);
+        cell.addAnimal(this);
     }
 
     @Override
     public void eat() {
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        Class clazz = this.getClass();
+        Class<? extends Predator> clazz = this.getClass();
         String className = clazz.getSimpleName();
         //список возможных жертв
-        List<String> victimProbList = new ArrayList<>();
+
         //список жертв(объектов) в ячейке
         List<Animal> victimList = new ArrayList<>();
         //получаем список возможных жертв
-        victimProbList = LoadClass.getMapPairs().get(className);
-        Animal victim = null;
+        List<String> victimProbList = LoadClass.getMapPairs().get(className);
+        Animal victim;
         //находим жертву в ячейке
         List<Animal> animalsCell = ListUtils.getAnimalsInCell(cell);
         //получаем список жертв, находящихся с хищником в одной ячейке
@@ -49,7 +47,7 @@ public abstract class Predator extends Animal {
             if (canEat) {
                 //едим жертву
                 synchronized (cell.lock) {
-                    cell.getHerbivores().remove(victim);
+                    cell.removeAnimal(victim);
                 }
                 if (health < maxHealth) health++;
             }
@@ -65,15 +63,8 @@ public abstract class Predator extends Animal {
     }
 
     private double chanceToEatVictim(Animal predator, Animal herbivore) {
-        Class eater = predator.getClass();
-        Class victim = herbivore.getClass();
-        LoadClass loadClass = new LoadClass();
-        return loadClass.getProbabilityTable().getProbability(eater, victim);
-    }
-
-    @Override
-    public void die() {
-        this.getCell().getPredators().remove(this);
-        Animal.setCount(Animal.getCount() - 1);
+        Class<? extends Animal> eater = predator.getClass();
+        Class<? extends Animal> victim = herbivore.getClass();
+        return AnimalEatProbability.getProbability(eater, victim);
     }
 }

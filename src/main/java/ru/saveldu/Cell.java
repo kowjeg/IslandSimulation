@@ -45,12 +45,23 @@ public class Cell {
     }
 
 
-    public void addHerbivore(Herbivore herbivore) {
-        herbivores.add(herbivore);
+    public void addAnimal (Animal animal) {
+        if (animal instanceof Predator) {
+            predators.add((Predator) animal);
+        }
+        else if (animal instanceof Herbivore) {
+            herbivores.add((Herbivore) animal);
+        }
     }
-    public void addPredator(Predator predator) {
-        predators.add(predator);
+    public void removeAnimal (Animal animal) {
+        if (animal instanceof Predator) {
+            predators.remove(animal);
+        } else if (animal instanceof Herbivore) {
+            herbivores.remove(animal);
+        }
     }
+
+
     public List<Predator> getPredators() {
 
         return predators;
