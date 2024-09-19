@@ -26,7 +26,8 @@ public class Main {
 
         Cell[][] cells = island.getCells();
         Rabbit rabbit = new Rabbit(cells[1][1]);
-
+        Wolf wolf = new Wolf(cells[1][1]);
+        wolf.eat();
         rabbit.reproduce();
         rabbit.reproduce();
         rabbit.reproduce();

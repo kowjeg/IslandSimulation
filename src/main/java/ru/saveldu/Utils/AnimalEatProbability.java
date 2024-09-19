@@ -12,7 +12,6 @@ public class AnimalEatProbability {
     public static void setProbabilityMap(Map<EatPair<Class<? extends Animal>, Class<? extends Animal>>, Double> probabilityMap) {
         AnimalEatProbability.probabilityMap = probabilityMap;
 
-        System.out.println("test2");
     }
 
     public void addProbability(Class<? extends Animal> clazzEater, Class<? extends Animal> clazzVictim, double probability) {
@@ -38,7 +37,7 @@ public class AnimalEatProbability {
             String predatorName = key.getFirst().getSimpleName();
             String herbivoreName = key.getSecond().getSimpleName();
 
-            // Добавляем травоядное к хищнику, если он уже есть в карте
+            // Добавляем травоядное к хищнику, если он уже есть в мапе
             classPairs.putIfAbsent(predatorName, new ArrayList<>());
             classPairs.get(predatorName).add(herbivoreName);
         }

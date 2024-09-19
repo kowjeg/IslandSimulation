@@ -1,26 +1,21 @@
 package ru.saveldu.Utils;
 
-import ru.saveldu.Cell;
+
 import ru.saveldu.Entities.Animal;
-import ru.saveldu.Entities.Herbivores.*;
-import ru.saveldu.Entities.Predators.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.*;
-
-import static ru.saveldu.Utils.AnimalEatProbability.getPair;
 
 public class LoadClass {
     //Мэппинг вероятности поедания
-    private static final AnimalEatProbability probabilityTable = new AnimalEatProbability();
 
-    private static Map<Class<? extends Animal>,Integer> healthMaxMap = new HashMap<>();
-//    private static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> pairs = getPair(Wolf.class, Rabbit.class);
-    private static Map<String,String> stringPair = new HashMap<>();
+
+    private static Map<Class<? extends Animal>, Integer> healthMaxMap = new HashMap<>();
+    //    private static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> pairs = getPair(Wolf.class, Rabbit.class);
+    private static Map<String, String> stringPair = new HashMap<>();
     private Map<Class<? extends Animal>, Integer> animalMaxPopulation = new HashMap<>();
-    static Map<Class<? extends Animal>,Integer> stepsMap = new HashMap<>();
+    static Map<Class<? extends Animal>, Integer> stepsMap = new HashMap<>();
     //Набор возможных путей поедания, строящийся на основе заполненной таблицы вероятности поедания. При поедании сначала будет поиск в ячейке такой комбинации
     //по голодному животному, если находит - то идем во вторую таблицу вероятности, и пытаемся покушать
     private static Map<String, List<String>> mapPairs;
@@ -33,32 +28,22 @@ public class LoadClass {
         return stepsMap;
     }
 
-    public AnimalEatProbability getProbabilityTable() {
-        return probabilityTable;
-    }
-
     public static Map<Class<? extends Animal>, Integer> getHealthMaxMap() {
         return healthMaxMap;
     }
     //загрузка параметров
     {
-
-        AnimalEatProbability aep = new AnimalEatProbability();
-
-        mapPairs  = AnimalEatProbability.getPairs();
-
         healthMaxMap = PropertiesLoader.loadPropertyMap("src/main/resources/maxhealth.properties");
-
         //загрузка из файла стартовой популяции каждого вида животных при инициализации
         animalMaxPopulation = PropertiesLoader.loadPropertyMap("src/main/resources/animalstartpopulation.properties");
-
         //загрузка из файла максимального количества шагов за такт для животных из настройки
         stepsMap = PropertiesLoader.loadPropertyMap("src/main/resources/stepmap.properties");
-
         //загрузка из файла меппинга вероятностей поедания
         AnimalEatProbability.setProbabilityMap(PropertiesLoader.loadAnimalEatProbability("src/main/resources/animalEatProbability.properties"));
-
+        // для первичной проверки возможности поедания в методе eat()
+        mapPairs = AnimalEatProbability.getPairs();
     }
+
     public static class PropertiesLoader {
         //меппинг короткого имени класса с полным
         private static final Map<String, String> animalClassMap = new HashMap<>();
@@ -85,8 +70,9 @@ public class LoadClass {
             animalClassMap.put("sheep", "ru.saveldu.Entities.Herbivores.Sheep");
 
         }
-        public static Map<Class<? extends Animal>,Integer> loadPropertyMap(String filePath) {
-            Map<Class<? extends Animal>,Integer> loadedMap = new HashMap<>();
+
+        public static Map<Class<? extends Animal>, Integer> loadPropertyMap(String filePath) {
+            Map<Class<? extends Animal>, Integer> loadedMap = new HashMap<>();
             Properties properties = new Properties();
             try (FileInputStream inputStream = new FileInputStream(filePath)) {
                 properties.load(inputStream);
@@ -113,9 +99,8 @@ public class LoadClass {
                 e.printStackTrace();
             }
             return loadedMap;
-
-
         }
+        //для загрузки вероятности поедения животных
         public static Map<EatPair<Class<? extends Animal>, Class<? extends Animal>>, Double> loadAnimalEatProbability(String filePath) {
             Map<EatPair<Class<? extends Animal>, Class<? extends Animal>>, Double> eatMapProb = new HashMap<>();
 
