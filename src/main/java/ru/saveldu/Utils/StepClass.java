@@ -19,7 +19,7 @@ public class StepClass implements Runnable {
     public void run() {
 
 
-        while (true) {
+        while (Animal.getCount()>100) {
             List<Animal> allAnimals = ListUtils.getAllAnimals();
             for (Animal animal : allAnimals) {
                 animal.move();
@@ -27,17 +27,18 @@ public class StepClass implements Runnable {
             for (Animal animal : allAnimals) {
 
                 animal.eat();
+                animal.dieIfNoHealth();
 
             }
             try {
-                Thread.sleep(500);
+                Thread.sleep(LoadClass.PropertiesLoader.getTickRate());
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             tickCount++;
             StatClass.printMap(Island.getInstance().getCells());
-            System.out.println(tickCount);
         }
+        System.out.println("Конец симуляции, животных <100");
 
 
     }

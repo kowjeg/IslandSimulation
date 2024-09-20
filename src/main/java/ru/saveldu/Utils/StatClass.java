@@ -3,71 +3,46 @@ package ru.saveldu.Utils;
 import ru.saveldu.Cell;
 import ru.saveldu.Entities.Animal;
 import ru.saveldu.Entities.Herbivore;
+import ru.saveldu.Entities.Herbivores.*;
 import ru.saveldu.Entities.Predator;
-import ru.saveldu.Entities.Predators.Wolf;
+import ru.saveldu.Entities.Predators.*;
 import ru.saveldu.Island;
 
 public class StatClass {
 
     private static int countEntity = 0;
 
-//    public static void printMap(Cell[][] cells) {
-//        System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
-//        for (Cell[] row : cells) {
-//            for (Cell cell : row) {
-//                System.out.print("| " + cell.getHerbivoreCount() + "|" + cell.getPredatorCount() + " |");
-//            }
-//            System.out.println();
-//        }
-//        System.out.println("Волков на карте " + Wolf.getCount() + " животных на карте: " + Animal.getCount());
-//
-//
-//    }
-public static void printMap(Cell[][] cells) {
-    System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
 
-    for (int x = 0; x < cells[0].length; x++) { // Перебираем по столбцам (X)
-        for (int y = 0; y < cells.length; y++) { // Перебираем по строкам (Y)
-            System.out.print("| " + cells[y][x].getHerbivoreCount() + "|" + cells[y][x].getPredatorCount() + " |");
-        }
-        System.out.println();
-    }
-    System.out.println("Волков на карте " + Wolf.getCount() + " животных на карте: " + Animal.getCount());
-}
-    private static void getPredators(Cell cell) {
+    public static void printMap(Cell[][] cells) {
+        System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
 
-        for (Predator predator : cell.getPredators()) {
-            System.out.println(predator.toString());
-
-        }
-
-    }
-    private static void getHerbivores(Cell cell) {
-
-        for (Herbivore herbivore : cell.getHerbivores()) {
-            System.out.println(herbivore.toString());
-        }
-
-    }
-    public static void getStat(Island island) {
-        countEntity = 0;
-
-        for (Cell[] cell : island.getCells()) {
-            for (Cell cell1 : cell) {
-                System.out.println("Ячейка " + cell1.getX() + " " + cell1.getY() + ": ");
-                getPredators(cell1);
-                getHerbivores(cell1);
-                countEntity = countEntity +  cell1.getHerbivores().size() + cell1.getPredators().size();
+        for (int x = 0; x < cells[0].length; x++) { // Перебираем по столбцам (X)
+            for (int y = 0; y < cells.length; y++) { // Перебираем по строкам (Y)
+                System.out.print("| " + cells[y][x].getHerbivoreCount() + "|" + cells[y][x].getPredatorCount() + " |");
             }
-
+            System.out.println();
         }
+        System.out.println(Wolf.getImage() + Wolf.getCount() +
+                Snake.getImage() + Snake.getCount() +
+                Fox.getImage() + Fox.getCount() +
+                Eagle.getImage() + Eagle.getCount() +
+                Bear.getImage() + Bear.getCount() +
+                Sheep.getImage() + Sheep.getCount() +
+                Rabbit.getImage() + Rabbit.getCount() +
+                Kangaroo.getImage() + Kangaroo.getCount() +
+                Horse.getImage() + Horse.getCount() +
+                Hamster.getImage() + Hamster.getCount() +
+                GuineaPig.getImage() + GuineaPig.getCount() +
+                Goat.getImage() + Goat.getCount() +
+                Duck.getImage() + Duck.getCount() +
+                Deer.getImage() + Deer.getCount() +
+                Cow.getImage() + Cow.getCount() +
+                Caterpillar.getImage() + Caterpillar.getCount() +
+                Buffalo.getImage() + Buffalo.getCount() +
+                Boar.getImage() + Boar.getCount() + "\n" +
 
-
-        System.out.println("На острове сейчас " + countEntity + " животных");
-        System.out.println();
-        System.out.println("----------------------------------------------");
-        System.out.println();
-
+                "Животных на карте: " + Animal.getCount()
+        +"\nТакт: " + StepClass.getTickCount() + "\n-------------------------------------------------------\n" );
     }
 
 }

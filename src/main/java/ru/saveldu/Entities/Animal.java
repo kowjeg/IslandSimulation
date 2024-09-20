@@ -29,6 +29,8 @@ public abstract class Animal extends AbstractOrganism {
         stepSize = LoadClass.getStepsMap().get(this.getClass());
         health = maxHealth;
     }
+
+
     public void  move() {
         int newXCoord = cell.getX();
         int newYCoord = cell.getY();
@@ -93,7 +95,13 @@ public abstract class Animal extends AbstractOrganism {
     }
 
     public void die() {
-        cell.removeAnimal(this);
         Animal.setCount(Animal.getCount() - 1);
+        isAlive = false;
+        cell.removeAnimal(this);
+    }
+    public void dieIfNoHealth() {
+        if (health <= 0 && isAlive) {
+            this.die();
+        }
     }
 }

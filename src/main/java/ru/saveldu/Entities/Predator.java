@@ -45,26 +45,19 @@ public abstract class Predator extends Animal {
             victim = victimList.get(victimIndex);
             double chanceToEat = chanceToEatVictim(this, victim);
             canEat = random.nextDouble(1.0) < chanceToEat;
-            if (canEat) {
+            if (canEat && victim.isAlive) {
                 //едим жертву
-                synchronized (cell.lock) {
-                    cell.removeAnimal(victim);
-                    Animal.setCount(Animal.getCount() - 1);
-                }
+                victim.die();
                 if (health < maxHealth) {
                     health++;
                 }
-            }
+            } else health--;
         }
-        if (!canEat) health--;
-        dieIfNoHealth();
+
+
     }
 
-    private void dieIfNoHealth() {
-        if (health <= 0) {
-            this.die();
-        }
-    }
+
 
     private double chanceToEatVictim(Animal predator, Animal herbivore) {
         Class<? extends Animal> eater = predator.getClass();

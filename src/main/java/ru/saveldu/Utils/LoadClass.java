@@ -6,6 +6,7 @@ import ru.saveldu.Entities.Animal;
 import ru.saveldu.Island;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -41,6 +42,7 @@ public class LoadClass {
     }
     //загрузка параметров
     {
+
         healthMaxMap = PropertiesLoader.loadPropertyMap("src/main/resources/maxhealth.properties");
         //загрузка из файла стартовой популяции каждого вида животных при инициализации
         animalStartPopulation = PropertiesLoader.loadPropertyMap("src/main/resources/animalstartpopulation.properties");
@@ -55,6 +57,11 @@ public class LoadClass {
     public static class PropertiesLoader {
         //меппинг короткого имени класса с полным
         private static final Map<String, String> animalClassMap = new HashMap<>();
+        private static int tickRate;
+
+        public static int getTickRate() {
+            return tickRate;
+        }
 
         static {
             // Заполняем мапу соответствиями из проперти и полного пути до класса
@@ -77,6 +84,27 @@ public class LoadClass {
             animalClassMap.put("kangaroo", "ru.saveldu.Entities.Herbivores.Kangaroo");
             animalClassMap.put("sheep", "ru.saveldu.Entities.Herbivores.Sheep");
 
+        }
+        public static void loadIslandConfig () {
+            Island island = null;
+            Properties prop = new Properties();
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream("src/main/resources/islandconfig.properties");
+                prop.load(fis);
+                int width = Integer.parseInt(prop.getProperty("width"));
+                int height = Integer.parseInt(prop.getProperty("height"));
+                tickRate = Integer.parseInt(prop.getProperty("tickrate"));
+                island = Island.getInstance(width, height);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         public static Map<Class<? extends Animal>, Integer> loadPropertyMap(String filePath) {
@@ -144,6 +172,9 @@ public class LoadClass {
         }
 
     }
+
+
+
     public static class InitializeClass {
         static Island island = Island.getInstance();
 
