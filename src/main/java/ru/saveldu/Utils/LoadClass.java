@@ -1,11 +1,16 @@
 package ru.saveldu.Utils;
 
 
+import ru.saveldu.Cell;
 import ru.saveldu.Entities.Animal;
+import ru.saveldu.Island;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class LoadClass {
     //Мэппинг вероятности поедания
@@ -14,11 +19,15 @@ public class LoadClass {
     private static Map<Class<? extends Animal>, Integer> healthMaxMap = new HashMap<>();
     //    private static Set<EatPair<Class<? extends Animal>, Class<? extends Animal>>> pairs = getPair(Wolf.class, Rabbit.class);
     private static Map<String, String> stringPair = new HashMap<>();
-    private Map<Class<? extends Animal>, Integer> animalMaxPopulation = new HashMap<>();
+    private static Map<Class<? extends Animal>, Integer> animalStartPopulation = new HashMap<>();
     static Map<Class<? extends Animal>, Integer> stepsMap = new HashMap<>();
     //Набор возможных путей поедания, строящийся на основе заполненной таблицы вероятности поедания. При поедании сначала будет поиск в ячейке такой комбинации
     //по голодному животному, если находит - то идем во вторую таблицу вероятности, и пытаемся покушать
     private static Map<String, List<String>> mapPairs;
+
+    public static Map<Class<? extends Animal>, Integer> getAnimalStartPopulation() {
+        return animalStartPopulation;
+    }
 
     public static Map<String, List<String>> getMapPairs() {
         return mapPairs;
@@ -33,9 +42,10 @@ public class LoadClass {
     }
     //загрузка параметров
     {
+
         healthMaxMap = PropertiesLoader.loadPropertyMap("src/main/resources/maxhealth.properties");
         //загрузка из файла стартовой популяции каждого вида животных при инициализации
-        animalMaxPopulation = PropertiesLoader.loadPropertyMap("src/main/resources/animalstartpopulation.properties");
+        animalStartPopulation = PropertiesLoader.loadPropertyMap("src/main/resources/animalstartpopulation.properties");
         //загрузка из файла максимального количества шагов за такт для животных из настройки
         stepsMap = PropertiesLoader.loadPropertyMap("src/main/resources/stepmap.properties");
         //загрузка из файла меппинга вероятностей поедания
@@ -47,6 +57,11 @@ public class LoadClass {
     public static class PropertiesLoader {
         //меппинг короткого имени класса с полным
         private static final Map<String, String> animalClassMap = new HashMap<>();
+        private static int tickRate;
+
+        public static int getTickRate() {
+            return tickRate;
+        }
 
         static {
             // Заполняем мапу соответствиями из проперти и полного пути до класса
@@ -69,6 +84,27 @@ public class LoadClass {
             animalClassMap.put("kangaroo", "ru.saveldu.Entities.Herbivores.Kangaroo");
             animalClassMap.put("sheep", "ru.saveldu.Entities.Herbivores.Sheep");
 
+        }
+        public static void loadIslandConfig () {
+            Island island = null;
+            Properties prop = new Properties();
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream("src/main/resources/islandconfig.properties");
+                prop.load(fis);
+                int width = Integer.parseInt(prop.getProperty("width"));
+                int height = Integer.parseInt(prop.getProperty("height"));
+                tickRate = Integer.parseInt(prop.getProperty("tickrate"));
+                island = Island.getInstance(width, height);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         public static Map<Class<? extends Animal>, Integer> loadPropertyMap(String filePath) {
@@ -135,6 +171,29 @@ public class LoadClass {
             return eatMapProb;
         }
 
+    }
+
+
+
+    public static class InitializeClass {
+        static Island island = Island.getInstance();
+
+        private static Map<Class<? extends Animal>, Integer> map = LoadClass.getAnimalStartPopulation();
+        //рандомно заселяем остров согласно конфигурации animalstartpopulation
+        public static void initialize() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+            for (Map.Entry<Class<? extends Animal>, Integer> entry : map.entrySet()) {
+                Class<? extends Animal> animalClass = entry.getKey();
+                ThreadLocalRandom random = ThreadLocalRandom.current();
+
+                int quantity = entry.getValue();
+                for (int i = 0; i < quantity; i++) {
+                    int xCoord = random.nextInt(0, island.getWidth());
+                    int yCoord = random.nextInt(0, island.getHeight());
+                    animalClass.getDeclaredConstructor(Cell.class).newInstance(island.getCellByCoordinates(xCoord,yCoord));
+
+                }
+            }
+        }
     }
 
 }

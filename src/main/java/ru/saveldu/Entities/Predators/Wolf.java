@@ -12,8 +12,16 @@ public class Wolf extends Predator {
         super(cell);
         count++;
     }
-    public static int getCount () {
+
+
+    public static int getCount() {
         return count;
+    }
+
+    @Override
+    public void die() {
+        super.die();
+        count--;
     }
 
     @Override
@@ -21,10 +29,7 @@ public class Wolf extends Predator {
         return "\uD83D\uDC3A";
     }
 
-    @Override
-    public void die() {
-        super.die();
-        count--;
-
+    public static String getImage() {
+        return "\uD83D\uDC3A";
     }
 }

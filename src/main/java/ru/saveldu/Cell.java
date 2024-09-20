@@ -44,6 +44,10 @@ public class Cell {
         return island.getCells()[x][y];
     }
 
+    public Cell getRandomCell () {
+        return null;
+    }
+
 
     public void addAnimal (Animal animal) {
         if (animal instanceof Predator) {

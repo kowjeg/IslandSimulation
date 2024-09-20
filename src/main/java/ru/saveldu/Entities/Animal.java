@@ -9,6 +9,7 @@ import ru.saveldu.Utils.LoadClass;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Animal extends AbstractOrganism {
     protected static int maxHealth;
@@ -28,6 +29,8 @@ public abstract class Animal extends AbstractOrganism {
         stepSize = LoadClass.getStepsMap().get(this.getClass());
         health = maxHealth;
     }
+
+
     public void  move() {
         int newXCoord = cell.getX();
         int newYCoord = cell.getY();
@@ -72,8 +75,7 @@ public abstract class Animal extends AbstractOrganism {
     }
 
     public Direction chooseDirection() {
-        Random random = new Random();
-        random.setSeed(System.currentTimeMillis());
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         int numberOfDirections = Direction.values().length;
         return Direction.values()[random.nextInt(numberOfDirections)];
     }
@@ -93,7 +95,13 @@ public abstract class Animal extends AbstractOrganism {
     }
 
     public void die() {
-        cell.removeAnimal(this);
         Animal.setCount(Animal.getCount() - 1);
+        isAlive = false;
+        cell.removeAnimal(this);
+    }
+    public void dieIfNoHealth() {
+        if (health <= 0 && isAlive) {
+            this.die();
+        }
     }
 }
