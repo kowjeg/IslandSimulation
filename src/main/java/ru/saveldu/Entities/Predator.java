@@ -33,6 +33,7 @@ public abstract class Predator extends Animal {
         List<Animal> animalsCell = ListUtils.getAnimalsInCell(cell);
         //получаем список жертв, находящихся с хищником в одной ячейке
         for (Animal animal : animalsCell) {
+
             if (victimProbList.contains(animal.getClass().getSimpleName())) victimList.add(animal);
         }
         //может ли скушать? изменится если повезет поймать выбранную жертву.
@@ -48,8 +49,11 @@ public abstract class Predator extends Animal {
                 //едим жертву
                 synchronized (cell.lock) {
                     cell.removeAnimal(victim);
+                    Animal.setCount(Animal.getCount() - 1);
                 }
-                if (health < maxHealth) health++;
+                if (health < maxHealth) {
+                    health++;
+                }
             }
         }
         if (!canEat) health--;

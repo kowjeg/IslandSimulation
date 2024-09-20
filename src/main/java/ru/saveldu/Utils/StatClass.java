@@ -11,18 +11,29 @@ public class StatClass {
 
     private static int countEntity = 0;
 
-    public static void printMap(Cell[][] cells) {
-        System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
-        for (Cell[] row : cells) {
-            for (Cell cell : row) {
-                System.out.print("| " + cell.getHerbivoreCount() + "|" + cell.getPredatorCount() + " |");
-            }
-            System.out.println();
+//    public static void printMap(Cell[][] cells) {
+//        System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
+//        for (Cell[] row : cells) {
+//            for (Cell cell : row) {
+//                System.out.print("| " + cell.getHerbivoreCount() + "|" + cell.getPredatorCount() + " |");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println("Волков на карте " + Wolf.getCount() + " животных на карте: " + Animal.getCount());
+//
+//
+//    }
+public static void printMap(Cell[][] cells) {
+    System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
+
+    for (int x = 0; x < cells[0].length; x++) { // Перебираем по столбцам (X)
+        for (int y = 0; y < cells.length; y++) { // Перебираем по строкам (Y)
+            System.out.print("| " + cells[y][x].getHerbivoreCount() + "|" + cells[y][x].getPredatorCount() + " |");
         }
-        System.out.println("Волков на карте " + Wolf.getCount() + " животных на карте: " + Animal.getCount());
-
-
+        System.out.println();
     }
+    System.out.println("Волков на карте " + Wolf.getCount() + " животных на карте: " + Animal.getCount());
+}
     private static void getPredators(Cell cell) {
 
         for (Predator predator : cell.getPredators()) {

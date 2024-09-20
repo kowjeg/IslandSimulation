@@ -9,6 +9,7 @@ import ru.saveldu.Utils.LoadClass;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Animal extends AbstractOrganism {
     protected static int maxHealth;
@@ -72,8 +73,7 @@ public abstract class Animal extends AbstractOrganism {
     }
 
     public Direction chooseDirection() {
-        Random random = new Random();
-        random.setSeed(System.currentTimeMillis());
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         int numberOfDirections = Direction.values().length;
         return Direction.values()[random.nextInt(numberOfDirections)];
     }

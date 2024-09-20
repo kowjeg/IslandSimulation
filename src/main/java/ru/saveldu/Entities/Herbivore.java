@@ -14,9 +14,10 @@ public abstract class Herbivore extends Animal {
 
     @Override
     public void eat() {
-        cell.getPlants().remove(0);
+
+//        cell.getPlants().remove(0);
         if (health < maxHealth) health++;
-        System.out.println("покушал");
+//        System.out.println("покушал");
 
         // Deer eats plants
     }

@@ -5,12 +5,9 @@ import ru.saveldu.Entities.Grass;
 import ru.saveldu.Entities.Herbivores.GuineaPig;
 import ru.saveldu.Entities.Herbivores.Rabbit;
 import ru.saveldu.Entities.Predators.Wolf;
-import ru.saveldu.Utils.AnimalEatProbability;
+import ru.saveldu.Utils.*;
 
-import ru.saveldu.Utils.EatPair;
-import ru.saveldu.Utils.LoadClass;
-import ru.saveldu.Utils.StatClass;
-
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,23 +16,17 @@ import java.util.Set;
 import static ru.saveldu.Utils.AnimalEatProbability.getPair;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         System.out.println("Hello Island!");
         LoadClass loadClass = new LoadClass();
-        Island island = Island.getInstance(6, 5);
+        Island island = Island.getInstance(10, 5);
 
-        Cell[][] cells = island.getCells();
-        Rabbit rabbit = new Rabbit(cells[1][1]);
-        Wolf wolf = new Wolf(cells[1][1]);
-        wolf.eat();
-        rabbit.reproduce();
-        rabbit.reproduce();
-        rabbit.reproduce();
-        while (true) {
-            rabbit.move();
-            Thread.sleep(500);
-            StatClass.printMap(cells);
-        }
+        LoadClass.InitializeClass.initialize();
+
+        StatClass.printMap(island.getCells());
+        StepClass stepClass = new     StepClass();
+        stepClass.run();
+        System.out.println("debug");
 
 
     }
