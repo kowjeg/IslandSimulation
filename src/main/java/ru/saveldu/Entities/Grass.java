@@ -7,4 +7,7 @@ public class Grass extends Plant {
     public Grass(Cell cell) {
         super(cell);
     }
+    public Grass() {
+
+    }
 }

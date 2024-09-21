@@ -4,34 +4,48 @@ import ru.saveldu.Cell;
 import ru.saveldu.Island;
 import ru.saveldu.Utils.AnimalFactory;
 import ru.saveldu.Utils.Direction;
+import ru.saveldu.Utils.ListUtils;
 import ru.saveldu.Utils.LoadClass;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Random;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Animal extends AbstractOrganism {
+    private int age;  //Возраст в тактах. Животное сможет умирать от старости
+    private static int maxAge; //предельный возраст для каждого вида животного
+    private boolean isReprodusable;
     protected static int maxHealth;
     private static int count;
     protected static int stepSize;
     protected int health;
+
     public static int getCount() {
         return count;
     }
+
     public static void setCount(int count) {
         Animal.count = count;
     }
+
     public Animal(Cell cell) {
         super(cell);
         count++;
         maxHealth = LoadClass.getHealthMaxMap().get(this.getClass());
         stepSize = LoadClass.getStepsMap().get(this.getClass());
         health = maxHealth;
+        isReprodusable = false;
     }
 
+    //каждый 4 такт можно размножаться
+    private void resetReproduce() {
+        age++;
+        if (age % 4 == 0) isReprodusable = true;
+    }
 
-    public void  move() {
+    public void move() {
+        resetReproduce();
         int newXCoord = cell.getX();
         int newYCoord = cell.getY();
         // делаем несколько шагов за один такт
@@ -76,6 +90,7 @@ public abstract class Animal extends AbstractOrganism {
 
     public Direction chooseDirection() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
+
         int numberOfDirections = Direction.values().length;
         return Direction.values()[random.nextInt(numberOfDirections)];
     }
@@ -90,8 +105,23 @@ public abstract class Animal extends AbstractOrganism {
 
     public abstract void eat();
 
+    //получаем список партнеров того же вида из клетки, ищем любого кто готов размножиться, если находим то размножаем и выходим из цикла.
     public void reproduce() {
-        AnimalFactory.createAnimal(cell, this.getClass());
+        if (this.isReprodusable) {
+            List<Animal> partnerList = ListUtils.partnersListInCell(this, cell);
+
+            if (partnerList.size() > 0) {
+                for (Animal animal : partnerList) {
+                    if (animal.isReprodusable) {
+                        Animal partner = animal;
+                        partner.isReprodusable = false;
+                        this.isReprodusable = false;
+                        AnimalFactory.createAnimal(cell, this.getClass());
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public void die() {
@@ -99,6 +129,7 @@ public abstract class Animal extends AbstractOrganism {
         isAlive = false;
         cell.removeAnimal(this);
     }
+
     public void dieIfNoHealth() {
         if (health <= 0 && isAlive) {
             this.die();
