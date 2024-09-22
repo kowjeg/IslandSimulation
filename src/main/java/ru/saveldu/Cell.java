@@ -15,6 +15,13 @@ public class Cell {
     private List<Herbivore> herbivores =  new ArrayList<>();
     private List<Plant> plants = new ArrayList<>();
 
+    public void removePlant (Plant plant) {
+        plants.remove(plant);
+    }
+    public void addPlant (List<Plant> plantList) {
+        plants.addAll(plantList);
+    }
+
     public List<Plant> getPlants() {
         return plants;
     }

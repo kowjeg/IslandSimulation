@@ -7,6 +7,7 @@ import ru.saveldu.Utils.LoadClass;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SplittableRandom;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Predator extends Animal {
@@ -20,6 +21,7 @@ public abstract class Predator extends Animal {
     public void eat() {
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
+        SplittableRandom random1 = new SplittableRandom(random.nextLong());
         Class<? extends Predator> clazz = this.getClass();
         String className = clazz.getSimpleName();
         //список возможных жертв
@@ -40,24 +42,24 @@ public abstract class Predator extends Animal {
         boolean canEat = false;
         if (!victimList.isEmpty()) {
             int max = victimList.size();
-            int victimIndex = random.nextInt(max);
+
+            int victimIndex = random1.nextInt(max);
             //фокус на рандомную цель, именно её будет пытаться съесть за один цикл
             victim = victimList.get(victimIndex);
             double chanceToEat = chanceToEatVictim(this, victim);
-            canEat = random.nextDouble(1.0) < chanceToEat;
+            canEat = random1.nextDouble(1.0) < chanceToEat;
             if (canEat && victim.isAlive) {
                 //едим жертву
                 victim.die();
                 if (health < maxHealth) {
                     health++;
                 }
-            } else health--;
+            } else health --;
+
+        } else {
+            health--;
         }
-
-
     }
-
-
 
     private double chanceToEatVictim(Animal predator, Animal herbivore) {
         Class<? extends Animal> eater = predator.getClass();

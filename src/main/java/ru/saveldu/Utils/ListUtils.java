@@ -21,7 +21,8 @@ public class ListUtils {
         }
         return result;
     }
-    public static List <Animal> getAllAnimals () {
+
+    public static List<Animal> getAllAnimals() {
 
         List<Animal> animalList = new ArrayList<>();
         Cell[][] cells = island.getCells();
@@ -35,7 +36,7 @@ public class ListUtils {
         return animalList;
     }
 
-    public static List <Animal> getAnimalsInCell (Cell cell) {
+    public static List<Animal> getAnimalsInCell(Cell cell) {
 
         List<Animal> animalList = new ArrayList<>();
         List<Herbivore> herbivoreList = cell.getHerbivores();
@@ -43,6 +44,22 @@ public class ListUtils {
         animalList.addAll(herbivoreList);
         animalList.addAll(predatorList);
         return animalList;
+    }
+
+    public static List<Animal> partnersListInCell(Animal animal,Cell cell) {
+        List<Animal> partnersList = new ArrayList<>();
+        List<Animal> animals = getAnimalsInCell(cell);
+        Class<? extends Animal> clazz = animal.getClass();
+        for (Animal a : animals) {
+            {
+                Class<? extends Animal> clazz2 = a.getClass();
+                if (clazz.isAssignableFrom(clazz2) && a!=animal) //получаем список возможных партнеров, исключая себя
+                {
+                    partnersList.add(a);
+                }
+            }
+        }
+        return partnersList;
     }
 
 }

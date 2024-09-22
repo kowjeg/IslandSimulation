@@ -13,6 +13,10 @@ public abstract class AbstractOrganism {
         isAlive = true;
 
     }
+
+    public AbstractOrganism() {
+        isAlive = true;
+    }
     public Cell getCell() {
         return cell;
     }

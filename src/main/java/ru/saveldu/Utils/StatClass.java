@@ -13,6 +13,7 @@ public class StatClass {
     private static int countEntity = 0;
 
 
+
     public static void printMap(Cell[][] cells) {
         System.out.println("В каждой ячейке слева - количество травоядных, справа - хищников");
 
@@ -42,7 +43,12 @@ public class StatClass {
                 Boar.getImage() + Boar.getCount() + "\n" +
 
                 "Животных на карте: " + Animal.getCount()
-        +"\nТакт: " + StepClass.getTickCount() + "\n-------------------------------------------------------\n" );
+
+        +"\nТакт: " + StepClass.getTickCount());
+
+        System.out.println("Травы в ячейках в среднем: " + PlantsGenerator.getPlantCount());
+
+        System.out.println("-------------------------------------------------------\n");
     }
 
 }

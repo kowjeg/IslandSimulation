@@ -18,11 +18,13 @@ public class StepClass implements Runnable {
     @Override
     public void run() {
 
-
         while (Animal.getCount()>100) {
             List<Animal> allAnimals = ListUtils.getAllAnimals();
             for (Animal animal : allAnimals) {
                 animal.move();
+            }
+            for (Animal animal: allAnimals) {
+                animal.reproduce();
             }
             for (Animal animal : allAnimals) {
 
@@ -38,8 +40,8 @@ public class StepClass implements Runnable {
             tickCount++;
             StatClass.printMap(Island.getInstance().getCells());
         }
+        Island.getInstance().setGameOver(true);
         System.out.println("Конец симуляции, животных <100");
-
 
     }
 }

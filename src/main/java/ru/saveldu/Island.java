@@ -6,6 +6,7 @@ public class Island {
     private Cell[][] cells;
     private int width;
     private int height;
+    private boolean gameOver;
 
     public int getWidth() {
         return width;
@@ -18,6 +19,7 @@ public class Island {
     public static Island getInstance(int width, int height) {
         if (instance == null) {
             instance = new Island(width, height);
+
         }
         return instance;
     }
@@ -25,11 +27,21 @@ public class Island {
         return instance;
     }
 
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
     private Island(int width, int height) {
+        gameOver = false;
         this.width = width;
         this.height = height;
         cells = new Cell[width][height];
         initializeCells();
+
     }
     public Cell[][] getCells() {
         return cells;
