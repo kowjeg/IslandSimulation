@@ -10,6 +10,7 @@ import ru.saveldu.Utils.LoadClass;
 
 import java.util.List;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Animal extends AbstractOrganism {
@@ -91,6 +92,7 @@ public abstract class Animal extends AbstractOrganism {
     public Direction chooseDirection() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
 
+
         int numberOfDirections = Direction.values().length;
         return Direction.values()[random.nextInt(numberOfDirections)];
     }
@@ -131,7 +133,7 @@ public abstract class Animal extends AbstractOrganism {
     }
 
     public void dieIfNoHealth() {
-        if (health <= 0 && isAlive) {
+        if ((health <= 0 || age>25) && isAlive) {
             this.die();
         }
     }

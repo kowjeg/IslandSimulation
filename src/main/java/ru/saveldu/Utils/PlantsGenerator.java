@@ -15,7 +15,6 @@ public class PlantsGenerator implements Runnable {
     @Override
     public void run() {
         while (!Island.getInstance().isGameOver()) {
-            System.out.println("generate Plants x200");
             getPlantsToIsland();
             try {
                 Thread.sleep(LoadClass.PropertiesLoader.getTickRate());
@@ -36,7 +35,7 @@ public class PlantsGenerator implements Runnable {
 
     private List<Plant> getPlants() {
         List<Plant> plants = new ArrayList<Plant>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             plants.add(new Grass());
         }
         return plants;

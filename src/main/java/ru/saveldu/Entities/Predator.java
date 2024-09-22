@@ -43,7 +43,7 @@ public abstract class Predator extends Animal {
         if (!victimList.isEmpty()) {
             int max = victimList.size();
 
-            int victimIndex = random.nextInt(max);
+            int victimIndex = random1.nextInt(max);
             //фокус на рандомную цель, именно её будет пытаться съесть за один цикл
             victim = victimList.get(victimIndex);
             double chanceToEat = chanceToEatVictim(this, victim);
